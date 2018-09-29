@@ -32,8 +32,7 @@ As raw input for the pipeline the sequenced reads, a _Bowtie2_ indexed reference
 The interactive user guide will help the user to enter the desired set of parameters for alignment and readcount extraction. The standard parameter are set as follows: All overrepresented sequences are removed and all reads longer and equal to 30 bp in length are used for alignment. 
 The pipeline will automatically run through the following steps:
 
-
-1._Bowtie2_ aligns each read (see Note 3) against the indexed genome, up to 20 times, to account for gene duplicates. 
+1. _Bowtie2_ aligns each read (see Note 3) against the indexed genome, up to 20 times, to account for gene duplicates. 
 2. _samtools_ generates `.bam` files (see Note 4, `samtools view` command) of the alignments (`.sam`-format) and indexes them (`samtools index` command).
 3. The read-counts for each gene are counted using a custom script. In short, the script uses the genome annotation (see Note 5) and counts the reads per listed feature using _samtools_. The output of this is saved in a tab-separated file.
 
