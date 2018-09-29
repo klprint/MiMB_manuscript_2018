@@ -19,25 +19,36 @@ In our developed pipeline _TrypRNAseq_, we use the tool _Cutadapt_ to do this ta
 
 ## Alignment pipeline
 The following steps include the (I) alignment of the reads against the reference genome and (II) the counting of the reads per coding sequence (CDS).
-To streamline and ensure reproducibility, we developed the pipeline _TrypRNAseq_(see Note 1). 
+To streamline and ensure reproducibility, we developed the pipeline _TrypRNAseq_(see [^noteTrypRNAseq]). 
 As raw input for the pipeline the sequenced reads, a _Bowtie2_ indexed reference genome and its annotation (modified _GTF_ file) is needed.
 <!-- 
     How to generate the index and get the GTF file? 
     Put the parsing code on github.
 -->
 
+[^noteTrypRNAseq]: We recommend to run the pipeline on a MacOS (the platform on which the pipeline was developed on) or a Linux machine.
 
-1. Retrieve the newest version of _TrypRNAseq_ from GitHub (https://github.com/agclayton/TrypRNAseq) (see Note 2).
+
+1. Retrieve the newest version of _TrypRNAseq_ from GitHub (https://github.com/agclayton/TrypRNAseq) (see [^noteTrypRNAseq2]).
 2. Unpack the downloaded archive into a folder where you want to install the pipeline.
 3. Place the read containing FASTQ files in a folder.
 4. Start the pipeline by navigating within the terminal to the TrypRNAseq installation directory and enter the following into a terminal session: `python3 tryprnaseq.py`.
 
+
+[^noteTrypRNAseq2]: Make sure that the dependencies, which are listed on the GitHub page, are installed and available via the terminal, without the need to enter the full path of each tool: Add the paths to the different dependencies to your `$PATH` global variable before starting the pipeline.
+
+
 The interactive user guide will help the user to enter the desired set of parameters for alignment and readcount extraction. The standard parameter are set as follows: All overrepresented sequences are removed and all reads longer and equal to 30 bp in length are used for alignment. 
 The pipeline will automatically run through the following steps:
 
-1. _Bowtie2_ aligns each read (see Note 3) against the indexed genome, up to 20 times, to account for gene duplicates. 
-2. _samtools_ generates `.bam` files (see Note 4, `samtools view` command) of the alignments (`.sam`-format) and indexes them (`samtools index` command).
+1. _Bowtie2_ aligns each read (see [^noteBowtie2Alignment]) against the indexed genome, up to 20 times, to account for gene duplicates. 
+2. _samtools_ generates `.bam` files (see [^samBamFiles], `samtools view` command) of the alignments (`.sam`-format) and indexes them (`samtools index` command).
 3. The read-counts for each gene are counted using a custom script. In short, the script uses the genome annotation and counts the reads per listed feature using _samtools_. The output of this is saved in a tab-separated file.
+
+[^noteBowtie2Alignment]: Only single-end sequnecing is possible within the pipeline, for now.
+
+[^samBamFiles]: `.bam`-files are only machine-readable but can be processed and indexed much faster than `.sam`-files.
+
 
 ### Updating the pipeline
 <!-- 
@@ -57,12 +68,6 @@ The app is designed to work seamingless with the output of the _TrypRNAseq_ pipe
 4. Within the app, the raw readcount matrix can be loaded from a file, where columns equal to experiments (treatments, conditions) and rows to GeneIDs.
 5. Since all reads were allowed to align up to 20 times on the reference genome, the gene list is subsetted for a list of "unique" genes (see file `DEseqUI/unique_list_transcLength.txt` and [^uniqueGeneList].
 
-
 [^uniqueGeneList]: The unique gene list is manually currated (based on ref) and contains representatives of the different gene families. This way we do not overestimate the expression of genes which have multiple copies, without knowing the exact copy number.
 
-## Notes
-1. We recommend to run the pipeline on a MacOS (the platform on which the pipeline was developed on) or a Linux machine. 
-2. Make sure that the dependencies, which are listed on the GitHub page, are installed and available via the terminal, without the need to enter the full path of each tool: Add the paths to the different dependencies to your `$PATH` global variable before starting the pipeline. 
-3. Only single-end sequnecing is possible for now.
-4. `.bam`-files are only machine-readable but can be processed and indexed much faster than `.sam`-files.
-5. The unique gene list is manually currated (based on ref) and contains representatives of the different gene families. This way we do not overestimate the expression of genes which have multiple copies, without knowing the exact copy number.
+
