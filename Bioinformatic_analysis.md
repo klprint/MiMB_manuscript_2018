@@ -66,7 +66,8 @@ The app is designed to work seamingless with the output of the _TrypRNAseq_ pipe
 2. Open in _RStudio_ (ref) the file: `DESeqUI/app.R`
 3. Click in _RStudio_ the "Run App" button which will open the app in a browser window.
 4. Within the app, the raw readcount matrix can be loaded from a file, where columns equal to experiments (treatments, conditions) and rows to GeneIDs.
-5. Since all reads were allowed to align up to 20 times on the reference genome, the gene list is subsetted for a list of "unique" genes (see file `DEseqUI/unique_list_transcLength.txt` and [^uniqueGeneList].
+5. Since all reads were allowed to align up to 20 times on the reference genome, the gene list is subsetted for a list of "unique" genes (see file `DEseqUI/unique_list_transcLength.txt` and [^uniqueGeneList]).
+6. For each column, the user specifies the group the experiment belongs to (i.e. control or treatment) and then specifies which groups should be tested against each other for DEGs and the accepted significance level.
 
 [^uniqueGeneList]: The unique gene list is manually currated (based on ref) and contains representatives of the different gene families. This way we do not overestimate the expression of genes which have multiple copies, without knowing the exact copy number.
 
